@@ -1,5 +1,5 @@
 import { GluegunToolbox } from 'gluegun'
-import { GluegunQuestionType } from 'gluegun/build/types/toolbox/prompt-types'
+import Questions from '../questions/questions'
 
 interface Config {
   solutionPath: string
@@ -48,15 +48,11 @@ module.exports = async (toolbox: GluegunToolbox) => {
     if ((await getConfig()) === false) {
       // didn't find a config. let's ask the user for one
       const { prompt } = toolbox
-      const result = await prompt.ask({
-        type: 'input',
-        name: 'config',
-        message: 'What is the name of the solution?'
-      })
+      const result = await prompt.ask(Questions.getAskSolutionName(toolbox))
 
       // if we received one, save it
-      if (result && result.config) {
-        saveConfig({ solutionPath: result.config })
+      if (result && result.solutionName) {
+        saveConfig({ solutionPath: result.solutionName })
       } else {
         // no config, exit
         return
@@ -75,18 +71,12 @@ module.exports = async (toolbox: GluegunToolbox) => {
 
   async function createProject(): Promise<void> {
     // pick tools from toolbox
-    const { print, prompt, strings } = toolbox
+    const { print, prompt } = toolbox
 
     // create the questions
-    const askName: GluegunQuestionType = {
-      type: 'input',
-      name: 'name',
-      message: 'What is the name of the project?',
-      format: value => strings.pascalCase(value)
-    }
+    const questions = [Questions.getAskProjectName(toolbox)]
 
     // ask the questions
-    const questions = [askName]
     const { name } = await prompt.ask(questions)
 
     // use the result to create a new classlib project
@@ -100,29 +90,12 @@ module.exports = async (toolbox: GluegunToolbox) => {
 
   async function createSolution(): Promise<void> {
     // pick tools from toolbox
-    const { print, prompt, strings, system } = toolbox
+    const { print, prompt, system } = toolbox
 
     // create the questions
-    const askSolutionName: GluegunQuestionType = {
-      type: 'input',
-      name: 'name',
-      message: 'What is the name of the solution?',
-      required: true,
-      format: value => strings.pascalCase(value),
-      result: value => strings.pascalCase(value)
-    }
-
-    const askOrganization: GluegunQuestionType = {
-      type: 'input',
-      name: 'organization',
-      message: 'What is the name of your organization?',
-      required: true,
-      format: value => strings.pascalCase(value),
-      result: value => strings.pascalCase(value)
-    }
+    const questions = [Questions.getAskSolutionName(toolbox), Questions.getAskOrganization(toolbox)]
 
     // ask the questions
-    const questions = [askSolutionName, askOrganization]
     const { name, organization } = await prompt.ask(questions)
 
     // use the result to create a new solution with a clean name
@@ -130,7 +103,7 @@ module.exports = async (toolbox: GluegunToolbox) => {
     const solutionDir = `build/${solutionPath}`
     const result = await system.run(`dotnet new sln --name ${name} --output ${solutionDir}`)
 
-    // Save the solution path into a configuration file
+    // save the solution path into a configuration file
     saveConfig({ solutionPath })
 
     // print result
@@ -140,20 +113,16 @@ module.exports = async (toolbox: GluegunToolbox) => {
   }
 
   async function createReadme(): Promise<void> {
-    const { print, system, strings, template, prompt } = toolbox
+    // pick tools from toolbox
+    const { print, strings, template, prompt } = toolbox
 
-    const nameInitial = strings.trim(await system.run('whoami'))
+    // create the questions
+    const questions = [Questions.getAskName(toolbox)]
 
-    const askName: GluegunQuestionType = {
-      type: 'input',
-      name: 'name',
-      message: 'What is your name?',
-      initial: nameInitial
-    }
-    const questions = [askName]
-
+    // ask the questions
     const { name } = await prompt.ask(questions)
 
+    // use the result to fill the readme
     const moreAwesome = strings.kebabCase(`${name} and a keyboard`)
     const contents = `🚨 Warning! ${moreAwesome} coming thru! 🚨`
 
