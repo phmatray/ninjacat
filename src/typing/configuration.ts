@@ -1,3 +1,22 @@
+export type AttributeType = 'int' | 'string' | 'date'
+
+export interface EntityAttribute {
+  name: string
+  type: AttributeType
+  required: true
+}
+
+export interface Entity {
+  info: {
+    name: string
+    description: string
+  }
+  options: {
+    timestamps: true
+  }
+  attributes: EntityAttribute[]
+}
+
 export interface Solution {
   // ex: Todolist
   name: string
@@ -14,6 +33,8 @@ export interface Solution {
     organization: string
     createdAt: Date
   }
+
+  entities: Entity[]
 }
 
 export interface Config {
