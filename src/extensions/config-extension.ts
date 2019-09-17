@@ -1,12 +1,13 @@
 import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { Config, Solution } from '../typing/configuration'
+import { Extension } from '../typing/common'
 
-module.exports = async (toolbox: GluegunToolbox) => {
+const configExtension: Extension = async (toolbox: GluegunToolbox) => {
   const { filesystem } = toolbox
 
   // location of the ninjacat config files
-  const NINJACAT_CONFIG_DIR = `${filesystem.homedir()}/.ninjacat/`
+  const NINJACAT_CONFIG_DIR = `${filesystem.homedir()}/ninjacat/`
   const NINJACAT_CONFIG_FILENAME = `${NINJACAT_CONFIG_DIR}config.json`
 
   // memoize the config once we retrieve it
@@ -29,7 +30,9 @@ module.exports = async (toolbox: GluegunToolbox) => {
   // read an existing config from the `NINJACAT_CONFIG` file, defined above
   async function readConfig(): Promise<Config | false> {
     if (filesystem.exists(NINJACAT_CONFIG_FILENAME)) {
+      console.warn('config before')
       const config = await filesystem.readAsync(NINJACAT_CONFIG_FILENAME)
+      console.warn('config after: ', config)
       return JSON.parse(config)
     } else {
       return false
@@ -46,6 +49,8 @@ module.exports = async (toolbox: GluegunToolbox) => {
   }
 
   async function addSolution(solution: Solution): Promise<void> {
+    await checkConfig()
+
     if (config) {
       const solutionExists = config.solutions.find(s => s.name === solution.name)
       if (!solutionExists) {
@@ -71,7 +76,7 @@ module.exports = async (toolbox: GluegunToolbox) => {
       // if we received one, save it
       if (authorName) {
         const config = createDefaultConfig(authorName)
-        saveConfig(config)
+        await saveConfig(config)
       } else {
         // no config, exit
         return
@@ -86,3 +91,5 @@ module.exports = async (toolbox: GluegunToolbox) => {
     addSolution
   }
 }
+
+export default configExtension

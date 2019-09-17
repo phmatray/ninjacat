@@ -1,20 +1,23 @@
 import { GluegunToolbox } from 'gluegun'
+import { Extension } from '../typing/common'
 
 // add your CLI-specific functionality here, which will then be accessible
 // to your commands
-module.exports = (toolbox: GluegunToolbox) => {
-  toolbox.welcome = () => {
-    const chalk = require('chalk')
-    const figlet = require('figlet')
+const cliExtension: Extension = async (toolbox: GluegunToolbox) => {
+  toolbox.cli = {
+    welcome: () => {
+      const chalk = require('chalk')
+      const figlet = require('figlet')
 
-    const { print } = toolbox
+      const { print } = toolbox
 
-    const title = chalk.red(figlet.textSync('ninjacat', { horizontalLayout: 'full' }))
+      const title = chalk.red(figlet.textSync('ninjacat', { horizontalLayout: 'full' }))
 
-    print.info(title)
-    print.info('A .NET Core REST API generator')
-    print.info('by @phmatray')
-    print.info('')
+      print.info(title)
+      print.info('A .NET Core REST API generator')
+      print.info('by @phmatray')
+      print.info('')
+    }
   }
 
   // enable this if you want to read configuration in from
@@ -25,3 +28,5 @@ module.exports = (toolbox: GluegunToolbox) => {
   //   ...toolbox.config.loadConfig(process.cwd(), "ninjacat")
   // }
 }
+
+export default cliExtension

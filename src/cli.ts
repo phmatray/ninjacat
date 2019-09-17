@@ -1,4 +1,4 @@
-const { build } = require('gluegun')
+import { build } from 'gluegun'
 
 /**
  * Create the cli and kick it off
@@ -20,4 +20,4 @@ async function run(argv) {
   return toolbox
 }
 
-module.exports = { run }
+export { run }

@@ -1,12 +1,12 @@
-import { GluegunToolbox } from 'gluegun'
-import { Choice } from 'gluegun/build/types/toolbox/prompt-enquirer-types'
+import { GluegunToolbox, GluegunCommand } from 'gluegun'
+import { Choice } from '../typing/common'
 
-module.exports = {
+const command: GluegunCommand = {
   name: 'ninjacat',
   run: async (toolbox: GluegunToolbox) => {
-    const { prompt, print, welcome, dotnet } = toolbox
+    const { prompt, print, cli, dotnet } = toolbox
 
-    welcome()
+    cli.welcome()
 
     const choices: Choice[] = [
       {
@@ -37,3 +37,5 @@ module.exports = {
     }
   }
 }
+
+export default command

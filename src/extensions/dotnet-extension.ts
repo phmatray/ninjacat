@@ -1,8 +1,9 @@
 import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { Solution } from '../typing/configuration'
+import { Extension } from '../typing/common'
 
-module.exports = async (toolbox: GluegunToolbox) => {
+const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
   async function createClasslibProject(name: string): Promise<string> {
     const { system } = toolbox
 
@@ -39,21 +40,23 @@ module.exports = async (toolbox: GluegunToolbox) => {
     const questions = [Questions.getAskSolutionName(toolbox), Questions.getAskOrganization(toolbox)]
 
     // ask the questions
-    const { name, organization } = await prompt.ask(questions)
+    const { solutionName, organization } = await prompt.ask(questions)
 
     // use the result to create a new solution with a clean name
-    const solutionPath = `${organization}.${name}`
+    const solutionPath = `${organization}.${solutionName}`
     const solutionDir = `build/${solutionPath}`
-    const result = await system.run(`dotnet new sln --name ${name} --output ${solutionDir}`)
+    const result = await system.run(`dotnet new sln --name ${solutionName} --output ${solutionDir}`)
 
     // save the solution path into a configuration file
     const solution: Solution = {
-      name,
+      name: solutionName,
       path: solutionPath,
       version: '0.0.1',
       meta: { organization }
     }
+    print.warning(config)
     await config.addSolution(solution)
+    print.warning(config)
 
     // print result
     print.newline()
@@ -92,3 +95,5 @@ module.exports = async (toolbox: GluegunToolbox) => {
     createReadme
   }
 }
+
+export default dotnetExtension

@@ -1,7 +1,9 @@
-import { GluegunToolbox } from 'gluegun'
+import { GluegunToolbox, GluegunCommand } from 'gluegun'
 
-module.exports = {
+const command: GluegunCommand = {
   run: async (toolbox: GluegunToolbox) => {
     toolbox.dotnet.createSolution()
   }
 }
+
+export default command
