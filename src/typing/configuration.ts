@@ -1,4 +1,4 @@
-export type AttributeType = 'int' | 'string' | 'date'
+type AttributeType = 'int' | 'string' | 'date'
 
 export interface EntityAttribute {
   name: string

@@ -2,6 +2,7 @@ import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { Config, Solution } from '../typing/configuration'
 import { Extension } from '../typing/common'
+import { createDefaultConfig } from '../utils/solutionHelper'
 
 const configExtension: Extension = async (toolbox: GluegunToolbox) => {
   const { filesystem } = toolbox
@@ -42,10 +43,6 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
     return filesystem.writeAsync(NINJACAT_CONFIG_FILENAME, config)
   }
 
-  function createDefaultConfig(authorName: string): Config {
-    return { author: { name: authorName }, solutions: [] }
-  }
-
   async function addSolution(solution: Solution): Promise<void> {
     await checkConfig()
 
@@ -56,10 +53,10 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
         return saveConfig(config)
       }
 
-      throw 'this solution already exists'
+      throw new Error('this solution already exists')
     }
 
-    throw 'no config file found'
+    throw new Error('no config file found')
   }
 
   async function checkConfig(): Promise<boolean> {
