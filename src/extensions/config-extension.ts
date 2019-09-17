@@ -50,7 +50,7 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
       const solutionExists = config.solutions.find(s => s.name === solution.name)
       if (!solutionExists) {
         config.solutions.push(solution)
-        return saveConfig(config)
+        return await saveConfig(config)
       }
 
       throw new Error('this solution already exists')
