@@ -23,6 +23,9 @@ $ npm publish
 
 ## The road to V1
 
+- [x] Generate empty solution
+- [ ] Generate additional files
+  - [ ] Readme
 - [ ] Generate **DTOs**
   - [ ] Set identity
     - [ ] Simple key
@@ -35,7 +38,7 @@ $ npm publish
 - [ ] Generate **Business Layer**
 - [ ] Generate **REST API**
   - [ ] Use Auth
-  - [ ] Use
+  - [ ] Use Swashbuckle
 
 # License
 
