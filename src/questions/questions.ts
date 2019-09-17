@@ -29,7 +29,7 @@ const getAskOrganization: GetQuestion = ({ strings }) => ({
   result: value => strings.pascalCase(value)
 })
 
-const getAskName: GetQuestion = ({ strings, system }) => ({
+const getAskAuthorName: GetQuestion = ({ strings, system }) => ({
   type: 'input',
   name: 'name',
   message: 'What is your name?',
@@ -40,7 +40,7 @@ const Questions = {
   getAskSolutionName,
   getAskProjectName,
   getAskOrganization,
-  getAskName
+  getAskAuthorName
 }
 
-export default Questions
+export { Questions }
