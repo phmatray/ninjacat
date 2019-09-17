@@ -12,6 +12,7 @@ export interface Solution {
   meta: {
     // ex: MyCompany
     organization: string
+    createdAt: Date
   }
 }
 

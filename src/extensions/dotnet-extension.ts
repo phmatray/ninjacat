@@ -52,7 +52,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
       name: solutionName,
       path: solutionPath,
       version: '0.0.1',
-      meta: { organization }
+      meta: { organization, createdAt: new Date() }
     }
     await config.addSolution(solution)
 
