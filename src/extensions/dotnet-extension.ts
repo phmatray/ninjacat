@@ -54,9 +54,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
       version: '0.0.1',
       meta: { organization }
     }
-    print.warning(config)
     await config.addSolution(solution)
-    print.warning(config)
 
     // print result
     print.newline()

@@ -30,9 +30,7 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
   // read an existing config from the `NINJACAT_CONFIG` file, defined above
   async function readConfig(): Promise<Config | false> {
     if (filesystem.exists(NINJACAT_CONFIG_FILENAME)) {
-      console.warn('config before')
       const config = await filesystem.readAsync(NINJACAT_CONFIG_FILENAME)
-      console.warn('config after: ', config)
       return JSON.parse(config)
     } else {
       return false
