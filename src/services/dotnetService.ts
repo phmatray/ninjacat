@@ -1,9 +1,9 @@
-import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { createDefaultSolution } from '../utils/solutionHelper'
 import { dotnetCommands } from '../utils/external/dotnet-commands'
+import { CreateDotnetSVC } from '../typing/common'
 
-export const createDotnetService = (toolbox: GluegunToolbox, configurationService) => {
+export const createDotnetService: CreateDotnetSVC = (toolbox, configurationService) => {
   // pick tools from toolbox
   const { system, print, prompt, strings, template } = toolbox
 

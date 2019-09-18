@@ -1,9 +1,9 @@
-import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
-import { Config, Solution } from '../typing/configuration'
 import { createDefaultConfig } from '../utils/solutionHelper'
+import { CreateConfigurationSVC } from '../typing/common'
+import { Config, Solution } from '../typing/configuration'
 
-export const createConfigurationService = (toolbox: GluegunToolbox) => {
+export const createConfigurationService: CreateConfigurationSVC = toolbox => {
   // pick tools from toolbox
   const { filesystem, prompt } = toolbox
 
