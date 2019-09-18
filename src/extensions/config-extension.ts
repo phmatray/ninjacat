@@ -30,12 +30,9 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
 
   // read an existing config from the `NINJACAT_CONFIG` file, defined above
   async function readConfig(): Promise<Config | false> {
-    if (filesystem.exists(NINJACAT_CONFIG_FILENAME)) {
-      const config = await filesystem.readAsync(NINJACAT_CONFIG_FILENAME)
-      return JSON.parse(config)
-    } else {
-      return false
-    }
+    return filesystem.exists(NINJACAT_CONFIG_FILENAME)
+      ? JSON.parse(await filesystem.readAsync(NINJACAT_CONFIG_FILENAME))
+      : false
   }
 
   // save a new config to the `NINJACAT_CONFIG` file
@@ -50,7 +47,7 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
       const solutionExists = config.solutions.find(s => s.name === solution.name)
       if (!solutionExists) {
         config.solutions.push(solution)
-        return await saveConfig(config)
+        return saveConfig(config)
       }
 
       throw new Error('this solution already exists')

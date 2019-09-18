@@ -2,13 +2,15 @@ import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { Extension } from '../typing/common'
 import { createDefaultSolution } from '../utils/solutionHelper'
+import { dotnetCommands } from '../utils/external/dotnet-commands'
 
 const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
   async function createClasslibProject(name: string): Promise<string> {
     const { system } = toolbox
 
     const solutionDir = `solutions/${name}`
-    const result = await system.run(`dotnet new classlib --name ${name} --output ${solutionDir}`)
+    const { newClasslib } = dotnetCommands
+    const result = await system.run(newClasslib(name, solutionDir))
 
     return result
   }
@@ -45,7 +47,8 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
     // use the result to create a new solution with a clean name
     const solutionPath = `${organization}.${solutionName}`
     const solutionDir = `solutions/${solutionPath}`
-    const result = await system.run(`dotnet new sln --name ${solutionName} --output ${solutionDir}`)
+    const { newSln } = dotnetCommands
+    const result = await system.run(newSln(solutionName, solutionDir))
 
     // save the solution path into a configuration file
     const solution = createDefaultSolution(solutionName, solutionPath, organization)
