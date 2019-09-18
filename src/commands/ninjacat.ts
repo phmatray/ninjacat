@@ -14,6 +14,10 @@ const command: GluegunCommand = {
         message: 'Create a new solution'
       },
       {
+        name: 'doctor',
+        message: 'Check if the kids are alright'
+      },
+      {
         name: 'help',
         message: 'See the help'
       }
@@ -28,7 +32,13 @@ const command: GluegunCommand = {
 
     switch (choice) {
       case 'new-solution':
-        services.dotnet.createSolution()
+        await services.dotnet.createSolution()
+        break
+
+      case 'doctor':
+        ;(await services.dotnet.checkDotnetCli())
+          ? print.success('The dotnet CLI tool is correctly installed')
+          : print.error('NotImplementedException ;-)')
         break
 
       default:

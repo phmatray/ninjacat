@@ -7,10 +7,28 @@ export const createDotnetService = (toolbox: GluegunToolbox, configurationServic
   // pick tools from toolbox
   const { system, print, prompt, strings, template } = toolbox
 
+  const checkDotnetCli = async (): Promise<boolean> => {
+    // Check if the dotnet CLI tool is installed
+    try {
+      const { versionCmd } = dotnetCommands
+      const cmd = versionCmd()
+      const version = await system.run(cmd)
+
+      // if its version is greater than 2.2.x
+      if (version < '2.2') {
+        throw new Error('The dotnet CLI tools version is lower than 2.2')
+      }
+
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   const createClasslibProject = async (name: string): Promise<string> => {
     const solutionDir = `solutions/${name}`
-    const { newClasslib } = dotnetCommands
-    const result = await system.run(newClasslib(name, solutionDir))
+    const { newClasslibCmd } = dotnetCommands
+    const result = await system.run(newClasslibCmd(name, solutionDir))
 
     return result
   }
@@ -41,8 +59,8 @@ export const createDotnetService = (toolbox: GluegunToolbox, configurationServic
     // use the result to create a new solution with a clean name
     const solutionPath = `${organization}.${solutionName}`
     const solutionDir = `solutions/${solutionPath}`
-    const { newSln } = dotnetCommands
-    const result = await system.run(newSln(solutionName, solutionDir))
+    const { newSlnCmd } = dotnetCommands
+    const result = await system.run(newSlnCmd(solutionName, solutionDir))
 
     // save the solution path into a configuration file
     const solution = createDefaultSolution(solutionName, solutionPath, organization)
@@ -77,6 +95,7 @@ export const createDotnetService = (toolbox: GluegunToolbox, configurationServic
   }
 
   const service = {
+    checkDotnetCli,
     createClasslibProject,
     createProject,
     createSolution,
