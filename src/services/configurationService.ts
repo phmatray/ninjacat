@@ -16,9 +16,14 @@ export const createConfigurationService = (toolbox: GluegunToolbox) => {
 
   // read an existing config from the `NINJACAT_CONFIG` file, defined above
   const readConfig = async (): Promise<Config | false> => {
-    return filesystem.exists(NINJACAT_CONFIG_FILENAME)
-      ? JSON.parse(await filesystem.readAsync(NINJACAT_CONFIG_FILENAME))
-      : false
+    if (!filesystem.exists(NINJACAT_CONFIG_FILENAME)) {
+      return false
+    }
+
+    const fileContent = await filesystem.readAsync(NINJACAT_CONFIG_FILENAME)
+    const config = fileContent !== undefined ? JSON.parse(fileContent) : false
+
+    return config
   }
 
   const getConfig = async (): Promise<Config | false> => {
@@ -39,7 +44,7 @@ export const createConfigurationService = (toolbox: GluegunToolbox) => {
     return filesystem.writeAsync(NINJACAT_CONFIG_FILENAME, config)
   }
 
-  const checkConfig = async (): Promise<boolean> => {
+  const checkConfig = async (): Promise<void> => {
     // check if we have a config
     if ((await getConfig()) === false) {
       // didn't find a config. let's ask the user for one
