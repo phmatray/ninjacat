@@ -2,7 +2,7 @@ import { GluegunToolbox, GluegunCommand } from 'gluegun'
 
 const command: GluegunCommand = {
   run: async (toolbox: GluegunToolbox) => {
-    toolbox.dotnet.createReadme()
+    toolbox.services.dotnet.createReadme()
   }
 }
 

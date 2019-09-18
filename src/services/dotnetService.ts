@@ -1,13 +1,13 @@
 import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
-import { Extension } from '../typing/common'
 import { createDefaultSolution } from '../utils/solutionHelper'
 import { dotnetCommands } from '../utils/external/dotnet-commands'
 
-const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
-  async function createClasslibProject(name: string): Promise<string> {
-    const { system } = toolbox
+export const createDotnetService = (toolbox: GluegunToolbox, configurationService) => {
+  // pick tools from toolbox
+  const { system, print, prompt, strings, template } = toolbox
 
+  const createClasslibProject = async (name: string): Promise<string> => {
     const solutionDir = `solutions/${name}`
     const { newClasslib } = dotnetCommands
     const result = await system.run(newClasslib(name, solutionDir))
@@ -15,10 +15,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
     return result
   }
 
-  async function createProject(): Promise<void> {
-    // pick tools from toolbox
-    const { print, prompt } = toolbox
-
+  const createProject = async (): Promise<void> => {
     // create the questions
     const questions = [Questions.getAskProjectName(toolbox)]
 
@@ -34,10 +31,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
     print.success(`Project "${name}" created into the solutions folder.`)
   }
 
-  async function createSolution(): Promise<void> {
-    // pick tools from toolbox
-    const { print, prompt, system, config } = toolbox
-
+  const createSolution = async (): Promise<void> => {
     // create the questions
     const questions = [Questions.getAskSolutionName(toolbox), Questions.getAskOrganization(toolbox)]
 
@@ -52,7 +46,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
 
     // save the solution path into a configuration file
     const solution = createDefaultSolution(solutionName, solutionPath, organization)
-    await config.addSolution(solution)
+    await configurationService.addSolution(solution)
 
     // print result
     print.newline()
@@ -60,10 +54,7 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
     print.info(`Created solution "${solutionPath}" into the solutions folder.`)
   }
 
-  async function createReadme(): Promise<void> {
-    // pick tools from toolbox
-    const { print, strings, template, prompt } = toolbox
-
+  const createReadme = async (): Promise<void> => {
     // create the questions
     const questions = [Questions.getAskAuthorName(toolbox)]
 
@@ -85,11 +76,12 @@ const dotnetExtension: Extension = async (toolbox: GluegunToolbox) => {
     print.info('readme.md created into the solutions folder.')
   }
 
-  toolbox.dotnet = {
+  const service = {
+    createClasslibProject,
     createProject,
     createSolution,
     createReadme
   }
-}
 
-export default dotnetExtension
+  return Object.freeze(service)
+}

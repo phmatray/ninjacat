@@ -4,7 +4,7 @@ import { Choice } from '../typing/common'
 const command: GluegunCommand = {
   name: 'ninjacat',
   run: async (toolbox: GluegunToolbox) => {
-    const { prompt, print, cli, dotnet } = toolbox
+    const { prompt, print, cli, services } = toolbox
 
     cli.welcome()
 
@@ -28,7 +28,7 @@ const command: GluegunCommand = {
 
     switch (choice) {
       case 'new-solution':
-        dotnet.createSolution()
+        services.dotnet.createSolution()
         break
 
       default:

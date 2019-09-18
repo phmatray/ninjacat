@@ -1,11 +1,11 @@
 import { GluegunToolbox } from 'gluegun'
 import { Questions } from '../questions/questions'
 import { Config, Solution } from '../typing/configuration'
-import { Extension } from '../typing/common'
 import { createDefaultConfig } from '../utils/solutionHelper'
 
-const configExtension: Extension = async (toolbox: GluegunToolbox) => {
-  const { filesystem } = toolbox
+export const createConfigurationService = (toolbox: GluegunToolbox) => {
+  // pick tools from toolbox
+  const { filesystem, prompt } = toolbox
 
   // location of the ninjacat config files
   const NINJACAT_CONFIG_DIR = `${filesystem.homedir()}/ninjacat/`
@@ -14,33 +14,50 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
   // memoize the config once we retrieve it
   let config: Config | false = false
 
-  // get the config
-  async function getConfig(): Promise<Config | false> {
+  // read an existing config from the `NINJACAT_CONFIG` file, defined above
+  const readConfig = async (): Promise<Config | false> => {
+    return filesystem.exists(NINJACAT_CONFIG_FILENAME)
+      ? JSON.parse(await filesystem.readAsync(NINJACAT_CONFIG_FILENAME))
+      : false
+  }
+
+  const getConfig = async (): Promise<Config | false> => {
     // if we've already retrieved it, return that
     if (config) {
       return config
     }
 
-    // get it from the config file?
+    // get it from the config file? So we memoize it.
     config = await readConfig()
 
     // return the config
     return config
   }
 
-  // read an existing config from the `NINJACAT_CONFIG` file, defined above
-  async function readConfig(): Promise<Config | false> {
-    return filesystem.exists(NINJACAT_CONFIG_FILENAME)
-      ? JSON.parse(await filesystem.readAsync(NINJACAT_CONFIG_FILENAME))
-      : false
-  }
-
-  // save a new config to the `NINJACAT_CONFIG` file
-  async function saveConfig(config: Config): Promise<void> {
+  const saveConfig = async (config: Config): Promise<void> => {
+    // save a new config to the `NINJACAT_CONFIG` file
     return filesystem.writeAsync(NINJACAT_CONFIG_FILENAME, config)
   }
 
-  async function addSolution(solution: Solution): Promise<void> {
+  const checkConfig = async (): Promise<boolean> => {
+    // check if we have a config
+    if ((await getConfig()) === false) {
+      // didn't find a config. let's ask the user for one
+      const askAuthorName = Questions.getAskAuthorName(toolbox)
+      const { authorName } = await prompt.ask([askAuthorName])
+
+      // if we received one, save it
+      if (authorName) {
+        const config = createDefaultConfig(authorName)
+        await saveConfig(config)
+      } else {
+        // no config, exit
+        return
+      }
+    }
+  }
+
+  const addSolution = async (solution: Solution): Promise<void> => {
     await checkConfig()
 
     if (config) {
@@ -56,32 +73,13 @@ const configExtension: Extension = async (toolbox: GluegunToolbox) => {
     throw new Error('no config file found')
   }
 
-  async function checkConfig(): Promise<boolean> {
-    // check if we have a config
-    if ((await getConfig()) === false) {
-      // didn't find a config. let's ask the user for one
-      const { prompt } = toolbox
-
-      const askAuthorName = Questions.getAskAuthorName(toolbox)
-      const { authorName } = await prompt.ask([askAuthorName])
-
-      // if we received one, save it
-      if (authorName) {
-        const config = createDefaultConfig(authorName)
-        await saveConfig(config)
-      } else {
-        // no config, exit
-        return
-      }
-    }
-  }
-
-  toolbox.config = {
+  const service = {
+    readConfig,
     getConfig,
     saveConfig,
     checkConfig,
     addSolution
   }
-}
 
-export default configExtension
+  return Object.freeze(service)
+}
