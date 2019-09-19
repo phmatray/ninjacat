@@ -1,9 +1,9 @@
 import { Questions } from '../questions/questions'
 import { createDefaultConfig } from '../utils/solutionHelper'
-import { CreateConfigurationSVC } from '../typing/common'
-import { Config, Solution } from '../typing/configuration'
+import { CreateConfigSVC } from '../typing/common'
+import { Config, Solution } from '../typing/config'
 
-export const createConfigurationService: CreateConfigurationSVC = toolbox => {
+export const createConfigService: CreateConfigSVC = toolbox => {
   // pick tools from toolbox
   const { filesystem, prompt } = toolbox
 

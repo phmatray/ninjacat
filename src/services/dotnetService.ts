@@ -3,7 +3,7 @@ import { createDefaultSolution } from '../utils/solutionHelper'
 import { dotnetCommands } from '../utils/external/dotnet-commands'
 import { CreateDotnetSVC } from '../typing/common'
 
-export const createDotnetService: CreateDotnetSVC = (toolbox, configurationService) => {
+export const createDotnetService: CreateDotnetSVC = (toolbox, configService) => {
   // pick tools from toolbox
   const { system, print, prompt, strings, template } = toolbox
 
@@ -64,7 +64,7 @@ export const createDotnetService: CreateDotnetSVC = (toolbox, configurationServi
 
     // save the solution path into a configuration file
     const solution = createDefaultSolution(solutionName, solutionPath, organization)
-    await configurationService.addSolution(solution)
+    await configService.addSolution(solution)
 
     // print result
     print.newline()

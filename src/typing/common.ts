@@ -1,7 +1,7 @@
 import { GluegunToolbox } from 'gluegun'
 import { GluegunQuestionType } from 'gluegun/build/types/toolbox/prompt-types'
 import { Choice as EnquirerChoice } from 'gluegun/build/types/toolbox/prompt-enquirer-types'
-import { Config, Solution } from './configuration'
+import { Config, Solution } from './config'
 
 // Extensions
 export type Extension = (toolbox: GluegunToolbox) => Promise<void>
@@ -12,7 +12,7 @@ export type QuestionsArray = { [key: string]: GetQuestion }
 export type Choice = EnquirerChoice
 
 // Services
-export type ConfigurationService = Readonly<{
+export type ConfigService = Readonly<{
   readConfig: () => Promise<Config | false>
   getConfig: () => Promise<Config | false>
   saveConfig: (config: Config) => Promise<void>
@@ -29,16 +29,16 @@ export type DotnetService = Readonly<{
 }>
 
 export interface Services {
-  config: ConfigurationService
+  config: ConfigService
   dotnet: DotnetService
 }
 
 export type ConfigureServices = (toolbox: GluegunToolbox) => Services
 
 // Create Services Functions
-export type CreateConfigurationSVC = (toolbox: GluegunToolbox) => ConfigurationService
+export type CreateConfigSVC = (toolbox: GluegunToolbox) => ConfigService
 
 export type CreateDotnetSVC = (
   toolbox: GluegunToolbox,
-  configurationService: ConfigurationService
+  configService: ConfigService
 ) => DotnetService

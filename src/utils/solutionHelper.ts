@@ -1,4 +1,4 @@
-import { Config, Solution } from '../typing/configuration'
+import { Config, Solution } from '../typing/config'
 
 function createDefaultConfig(authorName: string): Config {
   return {
