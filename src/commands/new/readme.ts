@@ -1,7 +1,7 @@
-import { GluegunToolbox, GluegunCommand } from 'gluegun'
+import { NinjacatCommand } from '../../typing/common'
 
-const command: GluegunCommand = {
-  run: async (toolbox: GluegunToolbox) => {
+const command: NinjacatCommand = {
+  run: async toolbox => {
     toolbox.services.dotnet.createReadme()
   }
 }

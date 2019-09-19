@@ -1,4 +1,4 @@
-import { GluegunToolbox } from 'gluegun'
+import { GluegunToolbox, GluegunCommand } from 'gluegun'
 import { GluegunQuestionType } from 'gluegun/build/types/toolbox/prompt-types'
 import { Choice as EnquirerChoice } from 'gluegun/build/types/toolbox/prompt-enquirer-types'
 import { Config, Solution } from './config'
@@ -42,3 +42,11 @@ export type CreateDotnetSVC = (
   toolbox: GluegunToolbox,
   configService: ConfigService
 ) => DotnetService
+
+// Toolbox inherited from Gluegun Toolbox
+export interface NinjacatToolbox extends GluegunToolbox {
+  cli: { welcome: () => void }
+  services: Services
+}
+
+export type NinjacatCommand = GluegunCommand<NinjacatToolbox>

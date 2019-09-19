@@ -1,17 +1,16 @@
-import { GluegunToolbox } from 'gluegun'
+import chalk from 'chalk'
+import * as figlet from 'figlet'
 import { Extension } from '../typing/common'
 
 // add your CLI-specific functionality here, which will then be accessible
 // to your commands
-const cliExtension: Extension = async (toolbox: GluegunToolbox) => {
+const cliExtension: Extension = async toolbox => {
+  const { print } = toolbox
+
   toolbox.cli = {
     welcome: () => {
-      const chalk = require('chalk')
-      const figlet = require('figlet')
-
-      const { print } = toolbox
-
-      const title = chalk.red(figlet.textSync('ninjacat', { horizontalLayout: 'full' }))
+      const ninjacatText = figlet.textSync('ninjacat', { horizontalLayout: 'full' })
+      const title = chalk.blueBright(ninjacatText)
 
       print.info(title)
       print.info('A .NET Core REST API generator')

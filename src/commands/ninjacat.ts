@@ -1,9 +1,8 @@
-import { GluegunToolbox, GluegunCommand } from 'gluegun'
-import { Choice } from '../typing/common'
+import { Choice, NinjacatCommand } from '../typing/common'
 
-const command: GluegunCommand = {
+const command: NinjacatCommand = {
   name: 'ninjacat',
-  run: async (toolbox: GluegunToolbox) => {
+  run: async toolbox => {
     const { prompt, print, cli, services } = toolbox
 
     cli.welcome()
