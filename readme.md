@@ -9,46 +9,38 @@ a netcore rest api generator written with typescript
 [![License](https://img.shields.io/npm/l/ninjacat.svg)](https://github.com/phmatray/ninjacat/blob/master/package.json)
 
 <!-- toc -->
-
-- [Usage](#usage)
-- [Commands](#commands)
-  <!-- tocstop -->
+* [ninjacat](#ninjacat)
+* [Usage](#usage)
+* [Commands](#commands)
+* [Prior art](#prior-art)
+* [License](#license)
+<!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
-
 ```sh-session
 $ npm install -g ninjacat
 $ ninjacat COMMAND
 running command...
 $ ninjacat (-v|--version|version)
-ninjacat/0.0.0 darwin-x64 node-v10.15.2
+ninjacat/0.1.0-alpha1 darwin-x64 node-v10.15.2
 $ ninjacat --help [COMMAND]
 USAGE
   $ ninjacat COMMAND
 ...
 ```
-
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-
-- [ninjacat](#ninjacat)
-- [Usage](#usage)
-- [Commands](#commands)
-  - [`ninjacat autocomplete [SHELL]`](#ninjacat-autocomplete-shell)
-  - [`ninjacat cli`](#ninjacat-cli)
-  - [`ninjacat goodbye`](#ninjacat-goodbye)
-  - [`ninjacat hello [FILE]`](#ninjacat-hello-file)
-  - [`ninjacat help [COMMAND]`](#ninjacat-help-command)
-  - [`ninjacat init`](#ninjacat-init)
-  - [`ninjacat new:solution`](#ninjacat-newsolution)
-  - [`ninjacat update [CHANNEL]`](#ninjacat-update-channel)
-- [Prior art](#prior-art)
-- [License](#license)
+* [`ninjacat autocomplete [SHELL]`](#ninjacat-autocomplete-shell)
+* [`ninjacat cli`](#ninjacat-cli)
+* [`ninjacat hello [FILE]`](#ninjacat-hello-file)
+* [`ninjacat help [COMMAND]`](#ninjacat-help-command)
+* [`ninjacat init`](#ninjacat-init)
+* [`ninjacat update [CHANNEL]`](#ninjacat-update-channel)
 
 ## `ninjacat autocomplete [SHELL]`
 
@@ -89,16 +81,7 @@ EXAMPLE
   ==placeholder==
 ```
 
-_See code: [src/commands/cli.ts](https://github.com/phmatray/ninjacat/blob/v0.0.0/src/commands/cli.ts)_
-
-## `ninjacat goodbye`
-
-```
-USAGE
-  $ ninjacat goodbye
-```
-
-_See code: [src/commands/goodbye.ts](https://github.com/phmatray/ninjacat/blob/v0.0.0/src/commands/goodbye.ts)_
+_See code: [src/commands/cli.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/cli.ts)_
 
 ## `ninjacat hello [FILE]`
 
@@ -118,7 +101,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/phmatray/ninjacat/blob/v0.0.0/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/hello.ts)_
 
 ## `ninjacat help [COMMAND]`
 
@@ -153,16 +136,7 @@ EXAMPLE
   initializing a new ninjacat project
 ```
 
-_See code: [src/commands/init.ts](https://github.com/phmatray/ninjacat/blob/v0.0.0/src/commands/init.ts)_
-
-## `ninjacat new:solution`
-
-```
-USAGE
-  $ ninjacat new:solution
-```
-
-_See code: [src/commands/new/solution.ts](https://github.com/phmatray/ninjacat/blob/v0.0.0/src/commands/new/solution.ts)_
+_See code: [src/commands/init.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/init.ts)_
 
 ## `ninjacat update [CHANNEL]`
 
@@ -174,7 +148,6 @@ USAGE
 ```
 
 _See code: [@oclif/plugin-update](https://github.com/oclif/plugin-update/blob/v1.3.9/src/commands/update.ts)_
-
 <!-- commandsstop -->
 
 # Prior art
