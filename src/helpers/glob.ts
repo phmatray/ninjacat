@@ -1,4 +1,4 @@
-import glob from 'glob'
+import * as glob from 'glob'
 
 export default (pattern: string): Promise<string[]> =>
   new Promise((resolve, reject): void => {

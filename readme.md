@@ -3,6 +3,7 @@
 a netcore rest api generator written with typescript
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+[![Build Status](https://www.travis-ci.org/phmatray/ninjacat.svg?branch=master)](https://www.travis-ci.org/phmatray/ninjacat)
 [![Version](https://img.shields.io/npm/v/ninjacat.svg)](https://npmjs.org/package/ninjacat)
 [![Codecov](https://codecov.io/gh/phmatray/ninjacat/branch/master/graph/badge.svg)](https://codecov.io/gh/phmatray/ninjacat)
 [![Downloads/week](https://img.shields.io/npm/dw/ninjacat.svg)](https://npmjs.org/package/ninjacat)

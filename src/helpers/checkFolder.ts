@@ -1,4 +1,4 @@
-import fs from 'fs-extra'
+import * as fs from 'fs-extra'
 import { normalize } from 'path'
 
 const CWD = process.cwd()

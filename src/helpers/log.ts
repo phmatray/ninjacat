@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import figlet from 'figlet'
+import * as figlet from 'figlet'
 
 export const logBuildMode = async (dev: boolean): Promise<void> => {
   if (!dev) {
