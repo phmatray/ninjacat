@@ -31,7 +31,7 @@ describe('filesystem-tools', () => {
   test.it('subdirectories', () => {
     const dirs = fileSystem.subdirectories(`${__dirname}/..`)
     expect(dirs.length).toBe(2)
-    expect(dirs).toContain(path.join(__dirname, '..', 'toolbox'))
+    expect(dirs).toContain(path.join(__dirname, '..', 'services'))
   })
 
   test.it('blank subdirectories', () => {
@@ -42,13 +42,7 @@ describe('filesystem-tools', () => {
   test.it('relative subdirectories', () => {
     const dirs = fileSystem.subdirectories(`${__dirname}/..`, true)
     expect(dirs.length).toBe(2)
-    expect(dirs).toContain(`toolbox`)
-  })
-
-  test.it('filtered subdirectories', () => {
-    const dirs = fileSystem.subdirectories(`${__dirname}/..`, true, 'to*')
-    expect(1).toBe(dirs.length)
-    expect(dirs).toContain(`toolbox`)
+    expect(dirs).toContain(`services`)
   })
 
   test.it('path separator', () => {

@@ -14,7 +14,7 @@ import { Prompt } from './services/prompt-tools'
 import { Template } from './services/template-tools'
 import { Dotnet } from './services/dotnet-service'
 
-let container = new Container()
+const container = new Container()
 
 container.bind<Utils>(TYPES.Utils).to(Utils)
 container.bind<Questions>(TYPES.Questions).to(Questions)

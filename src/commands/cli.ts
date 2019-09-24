@@ -32,7 +32,7 @@ export default class CliCommand extends Command {
     new EntityItem(4, 'Generation', true),
   ]
   private collection: EntityCollection = new JsonEntityCollection('Pokedex', this.entities)
-  private showTimestamped: boolean = true
+  private showTimestamped = true
 
   displayTodoList(): void {
     const timestamped = this.collection.getItemCounts().timestamped
