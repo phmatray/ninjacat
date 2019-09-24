@@ -1,22 +1,18 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": false,
-    "experimentalDecorators": true,
-    "lib": ["es2015", "scripthost", "es2015.promise", "es2015.generator", "es2015.iterable", "dom"],
+    "target": "es2018",
+    "outDir": "./lib",
+    "rootDir": "./src",
     "module": "commonjs",
-    "moduleResolution": "node",
     "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "sourceMap": false,
-    "inlineSourceMap": true,
-    "outDir": "build",
-    "strict": true,
-    "target": "es5",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true,
+    "importHelpers": true,
+    "lib": ["es2018"],
+    "types": ["reflect-metadata"],
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/**/*"]
+  "include": ["./src/**/*.ts", "test/toolbox/string-tools.test.ts"]
 }
