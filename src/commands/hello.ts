@@ -4,6 +4,7 @@ import { Command, flags } from '@oclif/command'
 import container from '../di-container'
 import { Print } from '../services/print-tools'
 import { TYPES } from '../constants/types'
+import { Meta } from '../services/meta-tools'
 
 export default class HelloCommand extends Command {
   static description = 'describe the command here'
@@ -38,9 +39,10 @@ hello world from ./src/hello.ts!
     const title = chalk.blueBright(ninjacatText)
 
     const print = container.get<Print>(TYPES.Print)
+    const meta = container.get<Meta>(TYPES.Meta)
 
     print.info(title)
     print.info('A .NET Core REST API generator by @phmatray')
-    print.info('')
+    print.info(`version ${meta.getVersion()}`)
   }
 }
