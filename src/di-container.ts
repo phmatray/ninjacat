@@ -9,6 +9,7 @@ import { FileSystem } from './services/filesystem-tools'
 import { System } from './services/system-tools'
 import { Strings } from './services/string-tools'
 import { Meta } from './services/meta-tools'
+import { Patching } from './services/patching-tools'
 import { Print } from './services/print-tools'
 import { Prompt } from './services/prompt-tools'
 import { Template } from './services/template-tools'
@@ -23,6 +24,7 @@ container.bind<FileSystem>(TYPES.FileSystem).to(FileSystem)
 container.bind<System>(TYPES.System).to(System)
 container.bind<Strings>(TYPES.Strings).to(Strings)
 container.bind<Meta>(TYPES.Meta).to(Meta)
+container.bind<Patching>(TYPES.Patching).to(Patching)
 container.bind<Print>(TYPES.Print).to(Print)
 container.bind<Prompt>(TYPES.Prompt).to(Prompt)
 container.bind<Template>(TYPES.Template).to(Template)

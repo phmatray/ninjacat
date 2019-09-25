@@ -9,6 +9,7 @@ export const TYPES = {
   Print: Symbol.for('Print'),
   Prompt: Symbol.for('Prompt'),
   Template: Symbol.for('Template'),
+  Patching: Symbol.for('Patching'),
   Questions: Symbol.for('Questions'),
   Configuration: Symbol.for('Configuration'),
 }
