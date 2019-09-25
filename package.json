@@ -3,10 +3,47 @@
   "description": "a netcore rest api generator written with typescript",
   "version": "0.1.0-alpha1",
   "author": "phmatray @phmatray",
+  "license": "MIT",
+  "homepage": "https://phmatray.github.io/ninjacat",
+  "bugs": "https://github.com/phmatray/ninjacat/issues",
+  "repository": "phmatray/ninjacat",
+  "keywords": [
+    "oclif"
+  ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "bin": {
     "ninjacat": "./bin/run"
   },
-  "bugs": "https://github.com/phmatray/ninjacat/issues",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "ninjacat",
+    "plugins": [
+      "@oclif/plugin-autocomplete",
+      "@oclif/plugin-help",
+      "@oclif/plugin-update",
+      "@oclif/plugin-warn-if-update-available"
+    ]
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint . --ext .ts",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md",
+    "check:dependencies": "npx npm-check -u"
+  },
   "dependencies": {
     "@oclif/command": "1.5.19",
     "@oclif/config": "1.13.3",
@@ -59,42 +96,5 @@
     "reflect-metadata": "0.1.13",
     "ts-node": "8.4.1",
     "typescript": "3.6.3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "files": [
-    "/bin",
-    "/lib",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json"
-  ],
-  "homepage": "https://github.com/phmatray/ninjacat",
-  "keywords": [
-    "oclif"
-  ],
-  "license": "MIT",
-  "main": "lib/index.js",
-  "oclif": {
-    "commands": "./lib/commands",
-    "bin": "ninjacat",
-    "plugins": [
-      "@oclif/plugin-autocomplete",
-      "@oclif/plugin-help",
-      "@oclif/plugin-update",
-      "@oclif/plugin-warn-if-update-available"
-    ]
-  },
-  "repository": "phmatray/ninjacat",
-  "scripts": {
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "postpack": "rm -f oclif.manifest.json",
-    "posttest": "eslint . --ext .ts",
-    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md",
-    "check:dependencies": "npx npm-check -u"
-  },
-  "types": "lib/index.d.ts"
+  }
 }
