@@ -1,28 +1,41 @@
 import * as expect from 'expect'
-import { test } from '@oclif/test'
 import { System } from '../../src/services/system-tools'
 import container from '../../src/di-container'
 import { TYPES } from '../../src/constants/types'
 
-const system = container.get<System>(TYPES.System)
+let system: System
 
 describe('system-tools', () => {
-  test.it('which - existing package', () => {
-    const result = system.which('node')
-    expect(result).not.toBe(null)
+  beforeAll(() => {
+    system = container.get<System>(TYPES.System)
   })
 
-  test.it('which - non-existing package', () => {
-    const result = system.which('non-existing-package')
-    expect(result).toBe(null)
+  it('should load dependency', () => {
+    expect(system === null).toBeFalsy()
   })
 
-  test.it('run - should reject if the command does not exist', async () => {
-    await expect(system.run('non-existing-command')).rejects.toThrowError()
+  describe('which', () => {
+    it('should not returns a non-existing package', () => {
+      const result = system.which('non-existing-package')
+      expect(result).toBe(null)
+    })
+
+    it('should returns the existing package', () => {
+      const result = system.which('node')
+      expect(result).not.toBe(null)
+    })
   })
 
-  test.it('run - should resolve if the command exists', async () => {
-    // `echo` should be a general command for both *nix and windows
-    await expect(system.run('echo ninjacat', { trim: true })).resolves.toBe('ninjacat')
+  describe('run', () => {
+    it('should reject if the command does not exist', async () => {
+      const result = system.run('non-existing-command')
+      await expect(result).rejects.toThrowError()
+    })
+
+    it('should resolve if the command exists', async () => {
+      // `echo` should be a general command for both *nix and windows
+      const result = system.run('echo ninjacat', { trim: true })
+      await expect(result).resolves.toBe('ninjacat')
+    })
   })
 })

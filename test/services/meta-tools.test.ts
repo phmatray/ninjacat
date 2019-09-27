@@ -1,20 +1,30 @@
 import * as expect from 'expect'
-import { test } from '@oclif/test'
-import { Meta } from '../../src/services/meta-tools'
 import container from '../../src/di-container'
 import { TYPES } from '../../src/constants/types'
+import { Meta } from '../../src/services/meta-tools'
 
-const meta = container.get<Meta>(TYPES.Meta)
+let meta: Meta
 
 describe('meta-tools', () => {
-  test.it('returns the version number', () => {
-    const version = meta.getVersion()
-    expect(version).not.toBeNull()
+  beforeAll(() => {
+    meta = container.get<Meta>(TYPES.Meta)
   })
 
-  // TODO: uncomment this after the first publish on npm registry
-  // test.it('checks for update', async () => {
-  //   const result = await Meta.checkForUpdate()
-  //   console.warn(result)
-  // })
+  it('should load dependency', () => {
+    expect(meta === null).toBeFalsy()
+  })
+
+  describe('getVersion', () => {
+    it('should returns the version number', async () => {
+      const version = await meta.getVersion()
+      expect(version).not.toBeNull()
+    })
+  })
+
+  describe('checkForUpdate', () => {
+    it('should checks for update', async () => {
+      const result = await meta.checkForUpdate()
+      expect(result).not.toBeNull()
+    })
+  })
 })

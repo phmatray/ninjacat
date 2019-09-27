@@ -118,6 +118,6 @@ export default class CliCommand extends Command {
     // const { args, flags } = this.parse(CliCommand)
     this.parse(CliCommand)
 
-    this.promptUser()
+    // this.promptUser()
   }
 }

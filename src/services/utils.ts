@@ -10,16 +10,12 @@ export class Utils {
     return a.slice(1)
   }
 
-  identity(a: any): any {
-    return a
-  }
-
   isNil(a: any): boolean {
     return a === null || a === undefined
   }
 
-  split(b: string, a: string): string[] {
-    return a.split(b)
+  split(separator: string, a: string): string[] {
+    return a.split(separator)
   }
 
   trim(a: string): string {
@@ -31,7 +27,7 @@ export class Utils {
   }
 
   keys(a: Record<string, any>): string[] {
-    return Object(a) !== a ? [] : Object.keys(a)
+    return Object.keys(a)
   }
 
   replace(b: string | RegExp, c: string, a: string): string {

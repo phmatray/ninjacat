@@ -1,8 +1,6 @@
-import * as fs from 'fs'
+import * as fse from 'fs-extra'
 import * as path from 'path'
 import * as os from 'os'
-import * as pathlib from 'path'
-import * as jetpack from 'fs-jetpack'
 import { injectable, inject } from 'inversify'
 import { TYPES } from '../constants/types'
 import { Strings } from './string-tools'
@@ -17,67 +15,68 @@ export class FileSystem {
   separator = path.sep
   resolve = path.resolve
 
-  chmodSync = fs.chmodSync
-  createWriteStream = fs.createWriteStream
-  createReadStream = fs.createReadStream
+  // chmodSync = fse.chmodSync
+  // createWriteStream = fse.createWriteStream
+  // createReadStream = fse.createReadStream
 
-  cwd = jetpack.cwd
-  path = jetpack.path
-  append = jetpack.append
-  appendAsync = jetpack.appendAsync
-  copy = jetpack.copy
-  copyAsync = jetpack.copyAsync
-  dir = jetpack.dir
-  dirAsync = jetpack.dirAsync
-  exists = jetpack.exists
-  existsAsync = jetpack.existsAsync
-  file = jetpack.file
-  fileAsync = jetpack.fileAsync
-  find = jetpack.find
-  findAsync = jetpack.findAsync
-  inspect = jetpack.inspect
-  inspectAsync = jetpack.inspectAsync
-  inspectTree = jetpack.inspectTree
-  inspectTreeAsync = jetpack.inspectTreeAsync
-  list = jetpack.list
-  listAsync = jetpack.listAsync
-  move = jetpack.move
-  moveAsync = jetpack.moveAsync
-  read = jetpack.read
-  readAsync = jetpack.readAsync
-  remove = jetpack.remove
-  removeAsync = jetpack.removeAsync
-  rename = jetpack.rename
-  renameAsync = jetpack.renameAsync
-  symlink = jetpack.symlink
-  symlinkAsync = jetpack.symlinkAsync
-  write = jetpack.write
-  writeAsync = jetpack.writeAsync
+  // cwd = fse.cwd
+  // path = fse.path
+  // append = fse.append
+  // appendAsync = fse.appendAsync
+  // copy = fse.copy
+  // copyAsync = fse.copyAsync
+  // dir = fse.dir
+  // dirAsync = fse.dirAsync
+  // exists = fse.exists
+  // existsAsync = fse.existsAsync
+  // file = fse.file
+  // fileAsync = fse.fileAsync
+  // find = fse.find
+  // findAsync = fse.findAsync
+  // inspect = fse.inspect
+  // inspectAsync = fse.inspectAsync
+  // inspectTree = fse.inspectTree
+  // inspectTreeAsync = fse.inspectTreeAsync
+  // list = fse.list
+  // listAsync = fse.listAsync
+  // move = fse.move
+  // moveAsync = fse.moveAsync
+  // read = fse.read
+  // readAsync = fse.readAsync
+  // remove = fse.remove
+  // removeAsync = fse.removeAsync
+  // rename = fse.rename
+  // renameAsync = fse.renameAsync
+  // symlink = fse.symlink
+  // symlinkAsync = fse.symlinkAsync
+  // write = fse.write
+  // writeAsync = fse.writeAsync
+  cwd = process.cwd
+  read = fse.readFile
+  readJson = fse.readJson
+  write = fse.writeFile
+  writeJson = fse.writeJson
 
   /**
    * Gets the immediate subdirectories.
    *
    * @param path Path to a directory to check.
-   * @param isRelative Return back the relative directory?
-   * @param matching   A jetpack matching filter
+   * @param isRelative Return back the relative directory
    * @return A list of directories
    */
-  subdirectories(path: string, isRelative = false, matching = '*'): string[] {
-    if (this.strings.isBlank(path) || !this.isDirectory(path)) {
+  subdirectories(path: string, isRelative = false): string[] {
+    let dirs
+
+    try {
+      dirs = fse
+        .readdirSync(path, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name)
+    } catch (error) {
       return []
     }
 
-    const dirs = jetpack.cwd(path).find({
-      matching,
-      directories: true,
-      recursive: false,
-      files: false,
-    })
-    if (isRelative) {
-      return dirs
-    } else {
-      return dirs.map(dir => pathlib.join(path, dir))
-    }
+    return isRelative ? dirs : dirs.map(dir => `./${dir}`)
   }
 
   /**
@@ -86,8 +85,8 @@ export class FileSystem {
    * @param path The filename to check.
    * @returns `true` if the file exists and is a file, otherwise `false`.
    */
-  isFile(path: string): boolean {
-    return jetpack.exists(path) === 'file'
+  async isFile(path: string): Promise<boolean> {
+    return (await fse.stat(path)).isFile()
   }
 
   /**
@@ -96,8 +95,8 @@ export class FileSystem {
    * @param path The filename to check
    * @return `true` if the file doesn't exist.
    */
-  isNotFile(path: string): boolean {
-    return !this.isFile(path)
+  async isNotFile(path: string): Promise<boolean> {
+    return !(await this.isFile(path))
   }
 
   /**
@@ -106,8 +105,8 @@ export class FileSystem {
    * @param path The directory to check.
    * @returns True/false -- does the directory exist?
    */
-  isDirectory(path: string): boolean {
-    return jetpack.exists(path) === 'dir'
+  async isDirectory(path: string): Promise<boolean> {
+    return (await fse.stat(path)).isDirectory()
   }
 
   /**
@@ -116,7 +115,7 @@ export class FileSystem {
    * @param path The directory to check.
    * @return `true` if the directory does not exist, otherwise false.
    */
-  isNotDirectory(path: string): boolean {
-    return !this.isDirectory(path)
+  async isNotDirectory(path: string): Promise<boolean> {
+    return !(await this.isDirectory(path))
   }
 }

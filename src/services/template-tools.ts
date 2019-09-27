@@ -35,7 +35,7 @@ export class Template {
     }
 
     // read the template
-    const templateContent = this.filesystem.read(pathToTemplate)
+    const templateContent = await this.filesystem.read(pathToTemplate, 'utf8')
 
     // render the template
     const content = ejs.render(templateContent, ejsData)
@@ -44,7 +44,7 @@ export class Template {
     if (!this.strings.isBlank(opts.target)) {
       // prep the destination directory
       const dir = this.utils.replace(/$(\/)*/g, '', opts.target)
-      const dest = this.filesystem.path(dir)
+      const dest = dir
 
       this.filesystem.write(dest, content)
     }

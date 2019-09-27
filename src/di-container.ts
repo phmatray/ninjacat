@@ -13,6 +13,7 @@ import { Patching } from './services/patching-tools'
 import { Print } from './services/print-tools'
 import { Prompt } from './services/prompt-tools'
 import { Template } from './services/template-tools'
+import { Configuration } from './services/config-service'
 import { Dotnet } from './services/dotnet-service'
 
 const container = new Container()
@@ -28,6 +29,7 @@ container.bind<Patching>(TYPES.Patching).to(Patching)
 container.bind<Print>(TYPES.Print).to(Print)
 container.bind<Prompt>(TYPES.Prompt).to(Prompt)
 container.bind<Template>(TYPES.Template).to(Template)
+container.bind<Configuration>(TYPES.Configuration).to(Configuration)
 container.bind<Dotnet>(TYPES.Dotnet).to(Dotnet)
 
 export default container

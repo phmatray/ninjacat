@@ -9,10 +9,10 @@
     "declaration": true,
     "importHelpers": true,
     "lib": ["es2018"],
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "jest"],
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["./src/**/*.ts", "test/toolbox/string-tools.test.ts"]
+  "include": ["./src/**/*.ts"]
 }

@@ -25,7 +25,7 @@ export class Patching {
 
     // read from jetpack -- they guard against a lot of the edge
     // cases and return nil if problematic
-    const contents = this.fileSystem.read(filename)
+    const contents = await this.fileSystem.read(filename, 'utf8')
 
     // only let the strings pass
     if (!this.utils.is(String, contents)) return false
@@ -51,7 +51,7 @@ export class Patching {
 
     // only write if they actually sent back something to write
     if (mutatedContents !== false) {
-      await this.fileSystem.writeAsync(filename, mutatedContents, { atomic: true })
+      await this.fileSystem.write(filename, mutatedContents, { encoding: 'utf8' })
     }
 
     return mutatedContents
@@ -114,11 +114,11 @@ export class Patching {
     if (!this.fileSystem.isFile(filename)) throw new Error(`file not found ${filename}`)
 
     // check type of file (JSON or not)
-    if (filename.endsWith('.json')) {
-      return this.fileSystem.readAsync(filename, 'json')
-    } else {
-      return this.fileSystem.readAsync(filename, 'utf8')
-    }
+    const filePromise = filename.endsWith('.json')
+      ? this.fileSystem.readJson(filename)
+      : this.fileSystem.read(filename, 'utf8')
+
+    return await filePromise
   }
 
   patchString(data: string, opts: NinjacatPatchingPatchOptions = {}): string | false {

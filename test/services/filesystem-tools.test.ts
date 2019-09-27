@@ -1,51 +1,57 @@
-import * as path from 'path'
 import * as expect from 'expect'
-import { test } from '@oclif/test'
-import { FileSystem } from '../../src/services/filesystem-tools'
 import container from '../../src/di-container'
 import { TYPES } from '../../src/constants/types'
+import { FileSystem } from '../../src/services/filesystem-tools'
 
-const fileSystem = container.get<FileSystem>(TYPES.FileSystem)
+let fileSystem: FileSystem
 
 describe('filesystem-tools', () => {
-  test.it('isFile', () => {
-    expect(fileSystem.isFile(__filename)).toBe(true)
-    expect(fileSystem.isFile(__dirname)).toBe(false)
+  beforeAll(() => {
+    fileSystem = container.get<FileSystem>(TYPES.FileSystem)
   })
 
-  test.it('isNotFile', () => {
-    expect(fileSystem.isNotFile(__filename)).toBe(false)
-    expect(fileSystem.isNotFile(__dirname)).toBe(true)
+  it('should load dependency', () => {
+    expect(fileSystem === null).toBeFalsy()
   })
 
-  test.it('isDirectory', () => {
-    expect(fileSystem.isDirectory(__dirname)).toBe(true)
-    expect(fileSystem.isDirectory(__filename)).toBe(false)
+  it('isFile', async () => {
+    expect(await fileSystem.isFile(__filename)).toBe(true)
+    expect(await fileSystem.isFile(__dirname)).toBe(false)
   })
 
-  test.it('isNotDirectory', () => {
-    expect(fileSystem.isNotDirectory(__dirname)).toBe(false)
-    expect(fileSystem.isNotDirectory(__filename)).toBe(true)
+  it('isNotFile', async () => {
+    expect(await fileSystem.isNotFile(__filename)).toBe(false)
+    expect(await fileSystem.isNotFile(__dirname)).toBe(true)
   })
 
-  test.it('subdirectories', () => {
-    const dirs = fileSystem.subdirectories(`${__dirname}/..`)
+  it('isDirectory', async () => {
+    expect(await fileSystem.isDirectory(__dirname)).toBe(true)
+    expect(await fileSystem.isDirectory(__filename)).toBe(false)
+  })
+
+  it('isNotDirectory', async () => {
+    expect(await fileSystem.isNotDirectory(__dirname)).toBe(false)
+    expect(await fileSystem.isNotDirectory(__filename)).toBe(true)
+  })
+
+  it('subdirectories', async () => {
+    const dirs = await fileSystem.subdirectories(`${__dirname}/..`)
     expect(dirs.length).toBe(2)
-    expect(dirs).toContain(path.join(__dirname, '..', 'services'))
+    expect(dirs).toEqual(['./commands', './services'])
   })
 
-  test.it('blank subdirectories', () => {
-    expect(fileSystem.subdirectories('')).toEqual([])
-    expect(fileSystem.subdirectories(__filename)).toEqual([])
+  it('blank subdirectories', async () => {
+    expect(await fileSystem.subdirectories('')).toEqual([])
+    expect(await fileSystem.subdirectories(__filename)).toEqual([])
   })
 
-  test.it('relative subdirectories', () => {
-    const dirs = fileSystem.subdirectories(`${__dirname}/..`, true)
+  it('relative subdirectories', async () => {
+    const dirs = await fileSystem.subdirectories(`${__dirname}/..`, true)
     expect(dirs.length).toBe(2)
     expect(dirs).toContain(`services`)
   })
 
-  test.it('path separator', () => {
+  it('path separator', () => {
     const sep = fileSystem.separator
     expect(sep).toBe(require('path').sep)
     expect(['/', '\\']).toContain(sep)
