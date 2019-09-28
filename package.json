@@ -1,7 +1,7 @@
 {
   "name": "ninjacat",
   "description": "a netcore rest api generator written with typescript",
-  "version": "0.1.0-alpha2",
+  "version": "0.1.0-alpha2.1",
   "author": "phmatray @phmatray",
   "license": "MIT",
   "homepage": "https://phmatray.github.io/ninjacat",
