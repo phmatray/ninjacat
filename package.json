@@ -41,7 +41,7 @@
     "posttest": "eslint . --ext .ts",
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "test": "jest --env=node --colors --coverage test",
-    "version": "oclif-dev readme && git add README.md",
+    "refresh:readme": "oclif-dev readme && git add README.md",
     "check:dependencies": "npx npm-check -u",
     "release": "np --no-publish"
   },
