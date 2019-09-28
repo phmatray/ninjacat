@@ -25,7 +25,7 @@ $ npm install -g ninjacat
 $ ninjacat COMMAND
 running command...
 $ ninjacat (-v|--version|version)
-ninjacat/0.1.0-alpha1 darwin-x64 node-v10.15.2
+ninjacat/0.1.0-alpha2 darwin-x64 node-v10.15.2
 $ ninjacat --help [COMMAND]
 USAGE
   $ ninjacat COMMAND
@@ -82,7 +82,7 @@ EXAMPLE
   ==placeholder==
 ```
 
-_See code: [src/commands/cli.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/cli.ts)_
+_See code: [src/commands/cli.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha2/src/commands/cli.ts)_
 
 ## `ninjacat hello [FILE]`
 
@@ -102,7 +102,7 @@ EXAMPLE
   hello world from ./src/hello.ts!
 ```
 
-_See code: [src/commands/hello.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/hello.ts)_
+_See code: [src/commands/hello.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha2/src/commands/hello.ts)_
 
 ## `ninjacat help [COMMAND]`
 
@@ -137,7 +137,7 @@ EXAMPLE
   initializing a new ninjacat project
 ```
 
-_See code: [src/commands/init.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha1/src/commands/init.ts)_
+_See code: [src/commands/init.ts](https://github.com/phmatray/ninjacat/blob/v0.1.0-alpha2/src/commands/init.ts)_
 
 ## `ninjacat update [CHANNEL]`
 

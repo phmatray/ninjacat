@@ -3,7 +3,7 @@ import * as childProcess from 'child_process'
 describe('hello', () => {
   function cli(args: string[], cwd: string): Promise<unknown> {
     return new Promise((resolve): void => {
-      const command = `ninjacat ${args.join(' ')}`
+      const command = `./bin/run ${args.join(' ')}`
       childProcess.exec(command, { cwd }, (error, stdout, stderr) => {
         error
         const result = {
